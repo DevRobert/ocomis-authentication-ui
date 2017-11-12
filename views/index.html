@@ -1,0 +1,22 @@
+<h2>Session information</h2>
+
+{{#if session}}
+<p>
+    You are logged in:
+</p>
+<p>
+    <b>User id</b>: {{session.userId}}<br>
+    <b>User name</b>: {{session.userName}}
+</p>
+
+<p>
+    <a class="btn btn-danger" href="/authentication/logout">Logout</a>
+</p>
+{{else}}
+<p>
+    You are not logged in.
+</p>
+<p>
+    <a class="btn btn-success" href="/authentication/login">Login</a>
+</p>
+{{/if}}

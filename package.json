@@ -1,0 +1,30 @@
+{
+  "name": "ocomis-authentication-ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevRobert/ocomis-authentication-ui.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevRobert/ocomis-authentication-ui/issues"
+  },
+  "homepage": "https://github.com/DevRobert/ocomis-authentication-ui#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "handlebars": "^4.0.11",
+    "hapi": "^17.0.1",
+    "hapi-auth-jwt2": "^7.3.0",
+    "inert": "^5.0.1",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "vision": "^5.1.0"
+  }
+}
