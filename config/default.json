@@ -3,5 +3,10 @@
         "cookieKey": "ocomis-token",
         "cookieSecure": false,
         "secret": "test"
+    },
+    "apis": {
+        "authentication": {
+            "uri": "http://localhost:3001/authentication/api"
+        }
     }
 }
