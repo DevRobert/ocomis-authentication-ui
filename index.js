@@ -3,9 +3,19 @@ const Inert = require("inert")
 const Handlebars = require("handlebars")
 const Vision = require("vision")
 const routes = require("./lib/routes")
+const JwtScheme = require("./lib/helpers/jwt_scheme")
+const Config = require("config")
 
 const server = new Hapi.Server({
     port: 3000
+})
+
+server.auth.scheme('jwt', JwtScheme);
+
+server.auth.strategy("jwt", "jwt", {
+    cookieKey: Config.get("jwt.cookieKey"),
+    cookieSecure: Config.get("jwt.cookieSecure"),
+    secret: Config.get("jwt.secret")
 })
 
 const provision = async () => {

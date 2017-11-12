@@ -18,11 +18,15 @@
   },
   "homepage": "https://github.com/DevRobert/ocomis-authentication-ui#readme",
   "dependencies": {
+    "assert": "^1.4.1",
+    "boom": "^7.1.1",
     "bootstrap": "^3.3.7",
+    "config": "^1.28.1",
     "handlebars": "^4.0.11",
     "hapi": "^17.0.1",
     "hapi-auth-jwt2": "^7.3.0",
     "inert": "^5.0.1",
+    "jsonwebtoken": "^8.1.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "vision": "^5.1.0"

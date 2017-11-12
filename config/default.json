@@ -1,0 +1,7 @@
+{
+    "jwt": {
+        "cookieKey": "ocomis-token",
+        "cookieSecure": false,
+        "secret": "test"
+    }
+}
