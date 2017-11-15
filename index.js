@@ -7,7 +7,7 @@ const JwtScheme = require("./lib/helpers/jwt_scheme")
 const Config = require("config")
 
 const server = new Hapi.Server({
-    port: 3000
+    port: 3003
 })
 
 server.auth.scheme('jwt', JwtScheme);

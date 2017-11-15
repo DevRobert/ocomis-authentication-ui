@@ -6,7 +6,7 @@
     },
     "apis": {
         "authentication": {
-            "uri": "http://localhost:3001/authentication/api"
+            "uri": "http://ocomis-authentication-api:3004/authentication/api"
         }
     }
 }
