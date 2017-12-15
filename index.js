@@ -3,24 +3,29 @@ const Inert = require("inert")
 const Handlebars = require("handlebars")
 const Vision = require("vision")
 const routes = require("./lib/routes")
-const JwtScheme = require("./lib/helpers/jwt_scheme")
 const Config = require("config")
+const HapiAuthJwt2 = require('hapi-auth-jwt2')
+const validateToken = require('./lib/models/validate_token')
 
-const server = new Hapi.Server({
+const server = new Hapi.Server()
+
+server.connection({
     port: 3003
 })
 
-server.auth.scheme('jwt', JwtScheme);
+server.register([ Inert, Vision, HapiAuthJwt2 ], (error) => {
+    if(error) {
+        throw error
+    }
 
-server.auth.strategy("jwt", "jwt", {
-    cookieKey: Config.get("jwt.cookieKey"),
-    cookieSecure: Config.get("jwt.cookieSecure"),
-    secret: Config.get("jwt.secret")
-})
-
-const provision = async () => {
-    await server.register(Inert)
-    await server.register(Vision)
+    server.auth.strategy('jwt', 'jwt', {
+        key: Config.get('jwt.secret'),
+        validateFunc: validateToken,
+        verifyOptions: {
+            algorithms: [ 'HS256' ]
+        },
+        cookieKey: Config.get('jwt.cookieKey')
+    })
 
     server.route(routes)
 
@@ -33,12 +38,14 @@ const provision = async () => {
         layout: "default"
     })
 
-    await server.start()
-}
+    server.start((error) => {
+        if(error) {
+            throw error
+        }
 
-provision().then(() => {
-    console.log("Ocomis authentication ui service started.")
-    console.log("Service running at: " + server.info.uri)
-}).catch((error) => {
-    throw error
+        console.log("Ocomis authentication ui service started.")
+        console.log("Service running at: " + server.info.uri)
+    })
 })
+
+module.exports = server // only for testing
