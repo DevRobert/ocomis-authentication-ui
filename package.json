@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js | ./node_modules/.bin/pino-socket -a ocomis-logging-logstash -p 5000 -m tcp"
   },
   "repository": {
     "type": "git",
@@ -25,8 +25,11 @@
     "handlebars": "^4.0.11",
     "hapi": "^16.6.2",
     "hapi-auth-jwt2": "^7.3.0",
+    "hapi-pino": "^2.1.0",
     "inert": "^4.2.1",
     "jsonwebtoken": "^8.1.0",
+    "pino": "^4.10.2",
+    "pino-socket": "^1.0.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "vision": "^4.1.1"

@@ -1,4 +1,5 @@
 const Hapi = require("hapi")
+const HapiPino = require('hapi-pino')
 const Inert = require("inert")
 const Handlebars = require("handlebars")
 const Vision = require("vision")
@@ -9,43 +10,60 @@ const validateToken = require('./lib/models/validate_token')
 
 const server = new Hapi.Server()
 
-server.connection({
-    port: 3003
-})
+function provision () {
+    return new Promise((fulfill, reject) => {
+        server.connection({
+            port: 3003
+        })
 
-server.register([ Inert, Vision, HapiAuthJwt2 ], (error) => {
-    if(error) {
-        throw error
+        server.register([ HapiPino, Inert, Vision, HapiAuthJwt2 ], (error) => {
+            if(error) {
+                return reject(error)
+            }
+
+            server.auth.strategy('jwt', 'jwt', {
+                key: Config.get('jwt.secret'),
+                validateFunc: validateToken,
+                verifyOptions: {
+                    algorithms: [ 'HS256' ]
+                },
+                cookieKey: Config.get('jwt.cookieKey')
+            })
+
+            server.route(routes)
+
+            server.views({
+                engines: {
+                    html: Handlebars
+                },
+                path: "views",
+                layoutPath: "views/layout",
+                layout: "default"
+            })
+
+            server.start((error) => {
+                if(error) {
+                    return reject(error)
+                }
+
+                fulfill()
+            })
+        })
+    })
+}
+
+provision().then(() => {
+    server.logger().info('Ocomis Authentication UI Service started.')
+    server.logger().info(`Service running at: ${server.info.uri}`)
+}).catch((error) => {
+    if (typeof server.logger !== 'function') {
+        console.log(error)
+    }
+    else {
+        server.logger().error(error)
     }
 
-    server.auth.strategy('jwt', 'jwt', {
-        key: Config.get('jwt.secret'),
-        validateFunc: validateToken,
-        verifyOptions: {
-            algorithms: [ 'HS256' ]
-        },
-        cookieKey: Config.get('jwt.cookieKey')
-    })
-
-    server.route(routes)
-
-    server.views({
-        engines: {
-            html: Handlebars
-        },
-        path: "views",
-        layoutPath: "views/layout",
-        layout: "default"
-    })
-
-    server.start((error) => {
-        if(error) {
-            throw error
-        }
-
-        console.log("Ocomis authentication ui service started.")
-        console.log("Service running at: " + server.info.uri)
-    })
+    process.exit(1)
 })
 
 module.exports = server // only for testing
