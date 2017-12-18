@@ -56,11 +56,11 @@ provision().then(() => {
     server.logger().info('Ocomis Authentication UI Service started.')
     server.logger().info(`Service running at: ${server.info.uri}`)
 }).catch((error) => {
-    if (typeof server.logger !== 'function') {
-        console.log(error)
+    if (typeof server.logger === 'function') {
+        server.logger().error(`Ocomis Authentication UI Service start failed: ${error}`)
     }
     else {
-        server.logger().error(error)
+        console.log(error)
     }
 
     process.exit(1)
