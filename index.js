@@ -1,23 +1,23 @@
-const Hapi = require("hapi")
+const Hapi = require('hapi')
 const HapiPino = require('hapi-pino')
-const Inert = require("inert")
-const Handlebars = require("handlebars")
-const Vision = require("vision")
-const routes = require("./lib/routes")
-const Config = require("config")
+const Inert = require('inert')
+const Handlebars = require('handlebars')
+const Vision = require('vision')
+const routes = require('./lib/routes')
+const Config = require('config')
 const HapiAuthJwt2 = require('hapi-auth-jwt2')
 const validateToken = require('./lib/models/validate_token')
 
 const server = new Hapi.Server()
 
 function provision () {
-    return new Promise((fulfill, reject) => {
+    return new Promise((resolve, reject) => {
         server.connection({
             port: 3003
         })
 
         server.register([ HapiPino, Inert, Vision, HapiAuthJwt2 ], (error) => {
-            if(error) {
+            if (error) {
                 return reject(error)
             }
 
@@ -36,17 +36,17 @@ function provision () {
                 engines: {
                     html: Handlebars
                 },
-                path: "views",
-                layoutPath: "views/layout",
-                layout: "default"
+                path: 'views',
+                layoutPath: 'views/layout',
+                layout: 'default'
             })
 
             server.start((error) => {
-                if(error) {
+                if (error) {
                     return reject(error)
                 }
 
-                fulfill()
+                resolve()
             })
         })
     })
@@ -58,8 +58,7 @@ provision().then(() => {
 }).catch((error) => {
     if (typeof server.logger === 'function') {
         server.logger().error(`Ocomis Authentication UI Service start failed: ${error}`)
-    }
-    else {
+    } else {
         console.log(error)
     }
 
