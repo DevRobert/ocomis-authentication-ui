@@ -1,5 +1,5 @@
 const Hapi = require('hapi')
-const pino = require('pino')
+const logger = require('./lib/logger')
 const HapiPino = require('hapi-pino')
 const Inert = require('inert')
 const Handlebars = require('handlebars')
@@ -16,8 +16,6 @@ function provision () {
         server.connection({
             port: 3003
         })
-
-        const logger = pino().child({ service: 'ocomis-authentication-ui' })
 
         server.register([
             { register: HapiPino, options: { instance: logger } },
