@@ -2,7 +2,7 @@
 <p class="alert alert-danger">{{errorMessage}}</p>
 {{/if}}
 
-<form style="max-width: 400px" method="POST" action="/authentication/login">
+<form style="max-width: 400px" method="POST" action={{actionUri}}>
     <div class="form-group">
         <label for="Username">Username:</label>
         <input type="text" id="Username" name="username" class="form-control" value="{{username}}" />
